@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentIt — Hyper-local rental marketplace</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark">RentIt</span>
+        <span class="tag">Hyper-local rentals</span>
+      </div>
+      <nav>
+        <a href="#marketplace">Marketplace</a>
+        <a href="#trust">Trust score</a>
+        <a href="#verification">Verify</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Peer-to-peer rental marketplace</p>
+          <h1>Rent tools, gadgets, and gear from neighbors — no inventory needed.</h1>
+          <p class="hero-text">RentIt connects trusted residents in your estate with nearby idle items. Build reputation, accept terms, complete a handover checklist, and pay a simple 10% fee.</p>
+          <div class="hero-actions">
+            <button id="exploreBtn" class="btn btn-primary">Explore marketplace</button>
+            <button id="profileBtn" class="btn btn-secondary">View trust profile</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <span>Featured listing</span>
+              <strong>Power Washer</strong>
+            </div>
+            <div class="hero-card-body">
+              <p>₦3,000/day · 1 street away · verified owner</p>
+              <div class="hero-meta">
+                <span>Handover checklist</span>
+                <span>Identity required</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro-grid" id="why">
+        <article>
+          <h2>Why RentIt?</h2>
+          <p>Because the best rental shops are the ones already inside your neighborhood. No inventory cost, no strangers, just community trust and quick access.</p>
+        </article>
+        <div class="feature-list">
+          <div class="feature-card">
+            <h3>Closed network</h3>
+            <p>Startup-ready design for gated estates, campuses, or company housing.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Identity mockup</h3>
+            <p>Selfie + NIN/BVN UI shows how verification can work without backend wiring.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Community trust</h3>
+            <p>A gamified trust score unlocks higher-value rentals over time.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Handover checklist</h3>
+            <p>Capture condition acceptance before the rental starts to avoid disputes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="marketplace">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Estate marketplace</p>
+            <h2>Browse nearby items</h2>
+          </div>
+          <div class="search-block">
+            <input id="searchInput" type="search" placeholder="Search tools, cameras, ladders..." />
+          </div>
+        </div>
+        <div id="itemsGrid" class="items-grid"></div>
+      </section>
+
+      <section class="section profile-panel" id="trust">
+        <h2>Your trust profile</h2>
+        <div class="profile-grid">
+          <div class="profile-card">
+            <div class="profile-row">
+              <div>
+                <p class="muted">Resident</p>
+                <h3>Ayo</h3>
+                <p class="small">Estate Alpha</p>
+              </div>
+              <span class="badge">Level <strong id="trustLevel">1</strong></span>
+            </div>
+            <div class="trust-block">
+              <div class="trust-label">
+                <span>Community trust</span>
+                <span id="completedRentals">2 safe returns</span>
+              </div>
+              <div class="progress-bar">
+                <div id="trustProgress" class="progress-fill"></div>
+              </div>
+            </div>
+            <div class="trust-actions">
+              <button id="verifyStartBtn" class="btn btn-secondary">Start identity verification</button>
+              <button id="guarantorBtn" class="btn btn-outline">Generate guarantor link</button>
+            </div>
+            <div id="guarantorMessage" class="note hidden"></div>
+          </div>
+          <div class="profile-card verification-card" id="verificationCard">
+            <h3>Identity verification</h3>
+            <p class="muted">Required to rent medium and high-value items.</p>
+            <div class="verification-state" id="verificationState">
+              <strong>Not verified</strong>
+              <p>Upload a selfie and enter your NIN/BVN to simulate verification.</p>
+            </div>
+            <form id="verificationForm" class="verification-form">
+              <label>
+                Selfie URL
+                <input id="selfieInput" type="text" placeholder="Paste selfie image URL" />
+              </label>
+              <label>
+                NIN / BVN number
+                <input id="idInput" type="text" placeholder="12345678901" maxlength="11" />
+              </label>
+              <button type="submit" class="btn btn-primary">Submit verification</button>
+            </form>
+            <div id="verifySpinner" class="spinner hidden">Verifying…</div>
+            <div id="verifySuccess" class="success-note hidden">Verified badge unlocked ✓</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section checklist-section" id="verification">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Handover checklist</p>
+            <h2>Start every rental with a condition report</h2>
+          </div>
+        </div>
+        <div class="checklist-grid">
+          <div class="checklist-card">
+            <h3>Record item condition</h3>
+            <p>Upload a short demo video or use the simulated handover button.</p>
+            <button id="handoverBtn" class="btn btn-secondary">Upload handover video</button>
+            <p id="handoverStatus" class="muted">No video uploaded yet.</p>
+          </div>
+          <div class="checklist-card">
+            <h3>Agree to the terms</h3>
+            <p>You cannot pay until you accept the rental agreement.</p>
+            <label class="checkbox-label">
+              <input id="termsCheckbox" type="checkbox" />
+              I accept RentIt’s rental terms.
+            </label>
+            <button id="checkoutBtn" class="btn btn-primary" disabled>Simulate checkout</button>
+            <div id="checkoutMessage" class="note hidden"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>RentIt demo — frontend-only prototype. Built with HTML, CSS, and JavaScript.</p>
+    </footer>
+  </div>
+
+  <div id="itemModal" class="modal hidden">
+    <div class="modal-panel">
+      <button id="closeModal" class="modal-close">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
