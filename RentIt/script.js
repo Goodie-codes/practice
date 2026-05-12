@@ -184,18 +184,6 @@ function openItemModal(itemId) {
     </div>
   `;
   itemModal.classList.remove("hidden");
-
-  document.getElementById("rentNowBtn").addEventListener("click", () => {
-    const needsVerification = item.highlight.toLowerCase().includes("requires verification") || item.highlight.toLowerCase().includes("requires guarantor");
-    if (appState.user.verification.status !== "verified" && needsVerification) {
-      alert("This item requires identity verification before renting. Please verify first.");
-      return;
-    }
-    itemModal.classList.add("hidden");
-    window.scrollTo({ top: document.getElementById("verification").offsetTop - 24, behavior: "smooth" });
-  });
-
-  document.getElementById("closeModalBtn").addEventListener("click", () => itemModal.classList.add("hidden"));
 }
 
 function showGuarantorLink() {
@@ -260,6 +248,22 @@ function mountEventListeners() {
   document.body.addEventListener("click", (event) => {
     if (event.target.matches("[data-item-id]")) {
       openItemModal(event.target.dataset.itemId);
+    }
+    if (event.target.id === "rentNowBtn") {
+      const itemId = event.target.closest(".modal-panel").querySelector("h2").textContent;
+      const item = appState.items.find(i => i.title === itemId);
+      if (item) {
+        const needsVerification = item.highlight.toLowerCase().includes("requires verification") || item.highlight.toLowerCase().includes("requires guarantor");
+        if (appState.user.verification.status !== "verified" && needsVerification) {
+          alert("This item requires identity verification before renting. Please verify first.");
+          return;
+        }
+        itemModal.classList.add("hidden");
+        window.scrollTo({ top: document.getElementById("verification").offsetTop - 24, behavior: "smooth" });
+      }
+    }
+    if (event.target.id === "closeModalBtn") {
+      itemModal.classList.add("hidden");
     }
   });
 
