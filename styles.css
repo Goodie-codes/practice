@@ -470,14 +470,18 @@ input {
   font-size: 0.96rem;
 }
 
-/* Checklist Section */
+/* HANDOVER CHECKLIST SECTION
+   ===========================
+   Critical pre-rental verification system for RentIt marketplace.
+   Ensures items are properly inspected and documented before rental begins.
+   Two-column grid layout showing verification steps and terms acceptance. */
 .checklist-section {
   margin-top: 20px;
 }
 
 .checklist-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Two equal columns */
   gap: 20px;
 }
 
@@ -488,6 +492,9 @@ input {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* TERMS ACCEPTANCE CHECKBOX
+   User must agree to rental terms before checkout can proceed.
+   Styled with proper spacing and visual hierarchy for legal compliance. */
 .checkbox-label {
   display: inline-flex;
   gap: 12px;
@@ -499,36 +506,50 @@ input {
 .checkbox-label input {
   width: 18px;
   height: 18px;
-  accent-color: var(--accent);
+  accent-color: var(--accent); /* Use theme accent color for checkbox */
 }
 
-/* Footer */
+/* FOOTER SECTION
+   ===============
+   Site footer with copyright and legal information.
+   Provides consistent branding and legal compliance across the RentIt platform.
+   Positioned at bottom of page with muted styling to not distract from main content. */
 .footer {
   margin-top: 44px;
   text-align: center;
   color: var(--muted);
 }
 
-/* Modal Styles */
+/* MODAL OVERLAY SYSTEM
+   =====================
+   Full-screen overlay for displaying detailed item information and rental workflows.
+   Uses fixed positioning to cover entire viewport with semi-transparent background.
+   Centers modal content and provides smooth user experience for item details. */
 .modal {
   position: fixed;
-  inset: 0;
+  inset: 0; /* Cover entire viewport */
   display: grid;
-  place-items: center;
-  background: rgba(6, 22, 38, 0.72);
+  place-items: center; /* Center modal content */
+  background: rgba(6, 22, 38, 0.72); /* Semi-transparent dark overlay */
   z-index: 20;
-  padding: 20px;
+  padding: 20px; /* Prevent content from touching screen edges */
 }
 
+/* MODAL CONTENT PANEL
+   Displays detailed item information, rental terms, and action buttons.
+   Styled as a card with rounded corners and subtle shadow for depth. */
 .modal-panel {
-  width: min(700px, 100%);
+  width: min(700px, 100%); /* Responsive width, max 700px */
   padding: 28px;
   border-radius: 28px;
-  background: #0f1725;
+  background: #0f1725; /* Dark modal background */
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow);
 }
 
+/* MODAL CLOSE BUTTON
+   Positioned absolutely in top-right corner of modal.
+   Large touch target for easy closing on mobile devices. */
 .modal-close {
   position: absolute;
   top: 22px;
@@ -536,40 +557,48 @@ input {
   border: none;
   background: transparent;
   color: var(--text);
-  font-size: 1.8rem;
+  font-size: 1.8rem; /* Large close icon */
   cursor: pointer;
 }
 
-/* Mobile Responsive Styles */
+/* MOBILE RESPONSIVE STYLES - TABLET BREAKPOINT (960px and below)
+   ================================================================
+   Adapts the RentIt marketplace layout for tablet and mobile devices.
+   Implements responsive grid systems, mobile navigation, and touch-friendly interactions.
+   Focuses on single-column layouts and mobile-first design principles. */
 @media (max-width: 960px) {
+  /* Convert multi-column layouts to single column for better mobile reading */
   .hero, .intro-grid, .profile-grid, .checklist-grid {
     grid-template-columns: 1fr;
   }
 
+  /* Adjust header layout for mobile - stack brand and menu vertically */
   .topbar {
     align-items: flex-start;
   }
 
+  /* Show hamburger menu button on mobile devices */
   .menu-toggle {
     display: block;
-    order: 2;
+    order: 2; /* Place menu button after brand */
   }
 
-
-
+  /* MOBILE NAVIGATION MENU STYLES
+     Fixed-position dropdown menu that slides down from top-right corner
+     Includes blur background effect and smooth animations for better UX */
   #navMenu {
     position: fixed;
     top: 0;
     right: 0;
     background: var(--surface);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 12px 12px; /* Rounded bottom corners only */
     padding: 20px;
     box-shadow: var(--shadow);
-    transform: translateY(-100%);
+    transform: translateY(-100%); /* Start hidden above viewport */
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Smooth slide-down animation */
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -577,12 +606,14 @@ input {
     min-width: 180px;
   }
 
+  /* Show menu when active - slide down into view */
   #navMenu.open {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
   }
 
+  /* Style navigation links in mobile menu */
   #navMenu a {
     display: block;
     color: var(--text);
@@ -597,16 +628,18 @@ input {
     background: rgba(255, 255, 255, 0.02);
   }
 
+  /* Hover effects for mobile menu links */
   #navMenu a:hover {
     color: var(--accent);
     background: rgba(255, 255, 255, 0.08);
-    padding-left: 20px;
+    padding-left: 20px; /* Slide text right on hover */
   }
 
   #navMenu a:last-child {
     margin-bottom: 0;
   }
 
+  /* Desktop navigation becomes horizontal scrollable on mobile */
   nav {
     width: 100%;
     overflow-x: auto;
@@ -621,23 +654,28 @@ input {
     display: inline-block;
   }
 
+  /* Center hero visual on mobile for better balance */
   .hero-visual {
     justify-content: center;
   }
 
+  /* Make hero card full width on mobile */
   .hero-card {
     width: 100%;
   }
 
+  /* Reduce gaps for tighter mobile layout */
   .intro-grid {
     gap: 20px;
   }
 
+  /* Stack section headers vertically on mobile */
   .section-header {
     flex-direction: column;
     align-items: stretch;
   }
 
+  /* Full-width search on mobile */
   .search-block {
     width: 100%;
   }
@@ -646,10 +684,12 @@ input {
     max-width: 100%;
   }
 
+  /* Single column item grid on mobile */
   .items-grid {
     grid-template-columns: 1fr;
   }
 
+  /* Reduce padding for mobile screens */
   .profile-panel {
     padding: 22px;
   }
@@ -660,11 +700,13 @@ input {
     padding: 20px;
   }
 
+  /* Stack trust action buttons vertically on mobile */
   .trust-actions {
     flex-direction: column;
     align-items: stretch;
   }
 
+  /* Adjust spacing for mobile */
   .hero-text {
     margin: 18px 0;
   }
@@ -673,38 +715,51 @@ input {
     justify-content: flex-start;
   }
 
+  /* Full-width buttons on mobile for better touch targets */
   .hero-actions .btn,
   .trust-actions .btn {
     width: 100%;
     min-width: 0;
   }
 
+  /* Reduce item card padding on mobile */
   .item-card {
     padding: 20px;
   }
 
+  /* Adjust modal padding for mobile */
   .modal-panel {
     padding: 24px;
   }
 
+  /* Reduce footer margin on mobile */
   .footer {
     margin-top: 32px;
   }
 }
 
+/* MOBILE RESPONSIVE STYLES - PHONE BREAKPOINT (640px and below)
+   =============================================================
+   Further optimizes the RentIt marketplace for small phone screens.
+   Implements single-column layouts, larger touch targets, and simplified interactions.
+   Prioritizes content readability and ease of use on very small screens. */
 @media (max-width: 640px) {
+  /* Reduce page shell padding for maximum content space */
   .page-shell {
     padding: 18px 14px 32px;
   }
 
+  /* Smaller hero heading for phone screens */
   .hero h1 {
     font-size: 2.2rem;
   }
 
+  /* Smaller brand mark on phones */
   .mark {
     font-size: 1.4rem;
   }
 
+  /* Tighter header spacing */
   .topbar {
     gap: 16px;
   }
@@ -713,15 +768,18 @@ input {
     gap: 4px;
   }
 
+  /* Move hero visual above text on very small screens */
   .hero-visual {
     order: -1;
   }
 
+  /* Adjust hero card styling for phones */
   .hero-card {
     border-radius: 24px;
     padding: 22px;
   }
 
+  /* Reduce border radius and padding for all cards on phones */
   .feature-card,
   .item-card,
   .profile-card,
@@ -730,39 +788,47 @@ input {
     padding: 18px;
   }
 
+  /* Full-width buttons for better touch targets */
   .btn {
     width: 100%;
   }
 
+  /* Adjust search input padding */
   .search-block input {
     padding: 14px 16px;
   }
 
+  /* Stack item metadata vertically on phones */
   .item-meta {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  /* Fit label pills to content */
   .label-pill {
     width: fit-content;
   }
 
+  /* Stack profile rows vertically */
   .profile-row {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  /* Stack trust labels vertically */
   .trust-label {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
 
+  /* Full-width modal on phones */
   .modal-panel {
     width: 100%;
     max-width: 100%;
   }
 
+  /* Adjust modal close button position */
   .modal-close {
     top: 16px;
     right: 16px;

@@ -1,24 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Page metadata and external resources -->
+  <!--
+    PAGE METADATA AND EXTERNAL RESOURCES
+    ====================================
+    This section defines the document type, character encoding, viewport settings,
+    page title, and links to external stylesheets. These elements ensure proper
+    rendering across devices and browsers for the RentIt peer-to-peer rental marketplace.
+  -->
   <meta charset="UTF-8" />
+  <!-- Ensures proper text encoding for all characters including special symbols like ₦ -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Enables responsive design by setting viewport width to device width and preventing zoom -->
   <title>RentIt — Hyper-local rental marketplace</title>
+  <!-- Page title displayed in browser tab and search results -->
   <link rel="stylesheet" href="styles.css" />
+  <!-- Links to the main stylesheet containing all visual styling for the RentIt application -->
 </head>
 <body>
-  <!-- Main page container -->
+  <!--
+    MAIN PAGE CONTAINER
+    ===================
+    The page-shell class provides the maximum width constraint and centering for the entire application.
+    It contains all visible content and ensures consistent spacing and layout across different screen sizes.
+    This is the root container that holds the header, main content, and footer sections.
+  -->
   <div class="page-shell">
-    <!-- Site header with branding and navigation -->
+    <!--
+      SITE HEADER WITH BRANDING AND NAVIGATION
+      =========================================
+      The topbar contains the RentIt branding (logo and tagline) and navigation menu.
+      On desktop, it shows horizontal navigation links. On mobile (≤960px), it transforms
+      into a hamburger menu that slides down from the top-right corner with blur effects.
+      This header provides consistent navigation across all pages of the rental marketplace.
+    -->
     <header class="topbar">
+      <!--
+        BRAND SECTION
+        ==============
+        Displays the RentIt logo and tagline. The mark shows the main brand name,
+        while the tag emphasizes the hyper-local nature of the rental service.
+        This branding helps users identify the platform and understand its unique value proposition.
+      -->
       <div class="brand">
         <span class="mark">RentIt</span>
         <span class="tag">Hyper-local rentals</span>
       </div>
+      <!--
+        MOBILE MENU TOGGLE BUTTON
+        =========================
+        Hamburger menu button that appears only on mobile devices (≤960px).
+        When clicked, it toggles the mobile navigation menu and applies blur effects
+        to the background content. The hamburger icon animates to an X when active.
+        This provides intuitive mobile navigation for the rental marketplace.
+      -->
       <button id="menuToggle" class="menu-toggle" aria-label="Toggle navigation menu">
         <span class="hamburger"></span>
       </button>
+      <!--
+        NAVIGATION MENU
+        ===============
+        Contains links to different sections of the RentIt application.
+        On desktop: horizontal navigation bar
+        On mobile: hidden by default, slides down from top-right when hamburger is clicked
+        Links include Profile, Marketplace, Listings, Trust Score, and Verification sections.
+        This navigation enables users to quickly jump between different parts of the rental platform.
+      -->
       <nav id="navMenu">
         <a href="#trust">Profile</a>
         <a href="#marketplace">Marketplace</a>
@@ -28,9 +75,24 @@
       </nav>
     </header>
 
-    <!-- Main content area -->
+    <!--
+      MAIN CONTENT AREA
+      =================
+      Contains all the primary content sections of the RentIt application.
+      This includes the hero section, marketplace, trust profile, and verification areas.
+      The main element provides semantic structure and contains the core user experience
+      for browsing rentals, managing profiles, and completing transactions.
+    -->
     <main>
-      <!-- Hero section with main value proposition -->
+      <!--
+        HERO SECTION - MAIN VALUE PROPOSITION
+        ======================================
+        The primary landing area that introduces users to RentIt.
+        Explains the core concept: peer-to-peer rentals within gated communities.
+        Contains compelling copy about the benefits (no inventory, community trust, simple fees)
+        and call-to-action buttons to explore the marketplace or view trust profiles.
+        This section converts visitors into active users of the rental platform.
+      -->
       <section class="hero" id="hero">
         <div class="hero-copy">
           <p class="eyebrow">Peer-to-peer rental marketplace</p>
@@ -43,6 +105,17 @@
         </div>
       </section>
 
+      <!--
+        WHY RENTIT SECTION - FEATURE BENEFITS
+        ======================================
+        Explains the key benefits and unique value propositions of the RentIt platform.
+        Uses a grid layout to showcase four main features:
+        1. Closed network - Security through gated community access
+        2. Identity mockup - Shows how verification works in the UI
+        3. Community trust - Gamified reputation system
+        4. Handover checklist - Prevents rental disputes
+        This section builds credibility and explains how RentIt solves rental problems.
+      -->
       <section class="section intro-grid" id="why">
         <article>
           <h2>Why RentIt?</h2>
@@ -68,6 +141,16 @@
         </div>
       </section>
 
+      <!--
+        MARKETPLACE SECTION - ITEM BROWSING
+        ===================================
+        The core functionality of RentIt - where users browse and search for rental items.
+        Contains a search bar for filtering items by title, category, or description.
+        Displays items in a responsive grid layout that adapts from 3 columns on desktop
+        to single column on mobile. Each item card shows price, distance, category,
+        and special requirements (verification, guarantor needed, etc.).
+        This is the primary user interface for discovering rental opportunities.
+      -->
       <section class="section" id="marketplace">
         <div class="section-header">
           <div>
@@ -81,9 +164,26 @@
         <div id="itemsGrid" class="items-grid"></div>
       </section>
 
+      <!--
+        TRUST PROFILE SECTION - USER REPUTATION MANAGEMENT
+        ==================================================
+        Displays the user's trust profile and verification status.
+        Shows current trust level (1-4), completed rentals count, and progress bar.
+        Contains identity verification form (selfie + NIN/BVN) and guarantor link generation.
+        Trust levels determine what items users can rent - higher trust unlocks more valuable rentals.
+        This section gamifies the user experience and builds community accountability.
+      -->
       <section class="section profile-panel" id="trust">
         <h2>Your trust profile</h2>
         <div class="profile-grid">
+          <!--
+            USER PROFILE CARD
+            =================
+            Shows basic user information (name, estate) and current trust level badge.
+            Displays trust progress with completed rentals count and visual progress bar.
+            Contains action buttons for verification and guarantor link generation.
+            The trust system encourages positive rental behavior through reputation rewards.
+          -->
           <div class="profile-card">
             <div class="profile-row">
               <div>
@@ -108,6 +208,15 @@
             </div>
             <div id="guarantorMessage" class="note hidden"></div>
           </div>
+          <!--
+            IDENTITY VERIFICATION CARD
+            ===========================
+            Handles user identity verification through selfie upload and NIN/BVN submission.
+            Shows current verification status and contains the verification form.
+            Verification is required for renting medium and high-value items.
+            Simulates the verification process with loading states and success feedback.
+            This builds trust in the community by verifying user identities.
+          -->
           <div class="profile-card verification-card" id="verificationCard">
             <h3>Identity verification</h3>
             <p class="muted">Required to rent medium and high-value items.</p>
@@ -132,6 +241,16 @@
         </div>
       </section>
 
+      <!--
+        HANDOVER CHECKLIST SECTION - RENTAL PREPARATION
+        ===============================================
+        Final step before rental checkout - ensures both parties agree on item condition.
+        Contains two main components:
+        1. Handover video upload - records item condition before rental
+        2. Terms acceptance - legal agreement checkbox and checkout simulation
+        This prevents disputes by documenting item condition and obtaining legal consent.
+        The checkout button is disabled until terms are accepted.
+      -->
       <section class="section checklist-section" id="verification">
         <div class="section-header">
           <div>
@@ -160,13 +279,27 @@
       </section>
     </main>
 
-    <!-- Site footer -->
+    <!--
+      SITE FOOTER
+      ===========
+      Contains copyright information and technical details about the demo.
+      Identifies this as a frontend-only prototype built with HTML, CSS, and JavaScript.
+      Provides context that this is a demonstration of the RentIt concept.
+    -->
     <footer class="footer">
       <p>RentIt demo — frontend-only prototype. Built with HTML, CSS, and JavaScript.</p>
     </footer>
   </div>
 
-  <!-- Item detail modal for viewing rental items -->
+  <!--
+    ITEM DETAIL MODAL
+    ==================
+    Overlay modal that appears when users click "View details" on rental items.
+    Shows expanded information about the selected item including pricing, description,
+    rental requirements, and booking actions. Uses a dark overlay background with
+    blur effects on mobile. Contains close button and handles click-outside-to-close.
+    This provides detailed item information without leaving the marketplace page.
+  -->
   <div id="itemModal" class="modal hidden">
     <div class="modal-panel">
       <button id="closeModal" class="modal-close">×</button>
@@ -174,7 +307,14 @@
     </div>
   </div>
 
-  <!-- Main JavaScript file for interactivity -->
+  <!--
+    MAIN JAVASCRIPT FILE
+    ====================
+    Links to the script.js file containing all interactive functionality.
+    Handles user interactions, state management, form submissions, modal controls,
+    mobile menu toggling, and dynamic content rendering for the rental marketplace.
+    This script brings the static HTML to life with dynamic behavior.
+  -->
   <script src="script.js"></script>
 </body>
 </html>
