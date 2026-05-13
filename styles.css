@@ -135,65 +135,13 @@ nav a:hover {
   top: 0;
 }
 
-.dropdown-container {
-  position: relative;
-  margin-left: auto;
+.blur-background main {
+  filter: blur(3px);
+  pointer-events: none;
 }
 
-.dropdown-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-  color: var(--text);
-  font-size: 1.2rem;
-}
-
-.dropdown-toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 8px 0;
-  min-width: 140px;
-  box-shadow: var(--shadow);
-  transform: translateY(-10px);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.2s ease;
-  z-index: 15;
-}
-
-.dropdown-menu.open {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
-
-.dropdown-menu a {
-  display: block;
-  color: var(--text);
-  text-decoration: none;
-  padding: 12px 20px;
-  font-size: 0.95rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-.dropdown-menu a:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.blur-background {
-  filter: blur(2px);
+.blur-background .footer {
+  filter: blur(3px);
   pointer-events: none;
 }
 
@@ -593,9 +541,7 @@ input {
     order: 2;
   }
 
-  .dropdown-container {
-    order: 3;
-  }
+
 
   #navMenu {
     position: absolute;

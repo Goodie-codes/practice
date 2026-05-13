@@ -92,8 +92,6 @@ const modalContent = document.getElementById("modalContent");
 const closeModal = document.getElementById("closeModal");
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
-const dropdownToggle = document.getElementById("dropdownToggle");
-const dropdownMenu = document.getElementById("dropdownMenu");
 
 function getTrustLevel(completedRentals = 0) {
   if (completedRentals >= 6) return 4;
@@ -209,40 +207,28 @@ function mountEventListeners() {
     if (isOpen) {
       navMenu.classList.remove("open");
       menuToggle.classList.remove("active");
+      document.body.classList.remove("blur-background");
     } else {
       navMenu.classList.add("open");
       menuToggle.classList.add("active");
-    }
-  });
-
-  dropdownToggle.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const isOpen = dropdownMenu.classList.contains("open");
-    if (isOpen) {
-      dropdownMenu.classList.remove("open");
-      document.body.classList.remove("blur-background");
-    } else {
-      dropdownMenu.classList.add("open");
       document.body.classList.add("blur-background");
     }
   });
 
-  // Close dropdown when clicking on menu items
-  dropdownMenu.addEventListener("click", (event) => {
+  // Close menu when clicking on nav links
+  navMenu.addEventListener("click", (event) => {
     if (event.target.tagName === "A") {
-      dropdownMenu.classList.remove("open");
+      navMenu.classList.remove("open");
+      menuToggle.classList.remove("active");
       document.body.classList.remove("blur-background");
     }
   });
 
-  // Close menus when clicking outside
+  // Close menu when clicking outside
   document.addEventListener("click", (event) => {
     if (!menuToggle.contains(event.target) && !navMenu.contains(event.target)) {
       navMenu.classList.remove("open");
       menuToggle.classList.remove("active");
-    }
-    if (!dropdownToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-      dropdownMenu.classList.remove("open");
       document.body.classList.remove("blur-background");
     }
   });
