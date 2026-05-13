@@ -546,11 +546,10 @@ input {
   #navMenu {
     position: absolute;
     top: 100%;
-    left: 0;
     right: 0;
     background: var(--surface);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 0 0 16px 16px;
+    border-radius: 12px;
     padding: 20px;
     box-shadow: var(--shadow);
     transform: translateY(-100%);
@@ -561,6 +560,7 @@ input {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    min-width: 180px;
   }
 
   #navMenu.open {
