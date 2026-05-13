@@ -1,3 +1,4 @@
+// Application state management
 const appState = {
   user: {
     name: "Ayo",
@@ -66,6 +67,7 @@ const appState = {
   ],
 };
 
+// DOM element references
 const itemsGrid = document.getElementById("itemsGrid");
 const trustLevel = document.getElementById("trustLevel");
 const completedRentals = document.getElementById("completedRentals");
@@ -93,6 +95,7 @@ const closeModal = document.getElementById("closeModal");
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
+// Utility functions for trust calculation and formatting
 function getTrustLevel(completedRentals = 0) {
   if (completedRentals >= 6) return 4;
   if (completedRentals >= 4) return 3;
@@ -110,6 +113,7 @@ function formatNaira(value) {
   return `₦${value.toLocaleString("en-NG")}`;
 }
 
+// Profile update function
 function updateProfile() {
   const { trust, verification, handoverVideo } = appState.user;
   const level = getTrustLevel(trust.completedRentals);
@@ -134,6 +138,7 @@ function updateProfile() {
   checkoutBtn.disabled = !appState.user.termsAccepted;
 }
 
+// Items rendering function
 function renderItems(query = "") {
   const normalized = query.trim().toLowerCase();
   itemsGrid.innerHTML = "";
@@ -168,6 +173,7 @@ function renderItems(query = "") {
   });
 }
 
+// Modal management for item details
 function openItemModal(itemId) {
   const item = appState.items.find(i => i.id === itemId);
   if (!item) return;
@@ -188,6 +194,7 @@ function openItemModal(itemId) {
   itemModal.classList.remove("hidden");
 }
 
+// Guarantor link generation
 function showGuarantorLink() {
   const code = Math.random().toString(36).slice(2, 10).toUpperCase();
   appState.user.guarantorLink = `https://rentit.local/guarantor/${code}`;
@@ -195,6 +202,7 @@ function showGuarantorLink() {
   guarantorMessage.classList.remove("hidden");
 }
 
+// Event listeners setup
 function mountEventListeners() {
   searchInput.addEventListener("input", (event) => renderItems(event.target.value));
   exploreBtn.addEventListener("click", () => document.getElementById("marketplace").scrollIntoView({ behavior: "smooth" }));
@@ -202,6 +210,7 @@ function mountEventListeners() {
   verifyStartBtn.addEventListener("click", () => document.getElementById("verification").scrollIntoView({ behavior: "smooth" }));
   guarantorBtn.addEventListener("click", showGuarantorLink);
 
+  // Mobile menu toggle functionality
   menuToggle.addEventListener("click", () => {
     const isOpen = navMenu.classList.contains("open");
     if (isOpen) {
@@ -233,6 +242,7 @@ function mountEventListeners() {
     }
   });
 
+  // Verification form handling
   verificationForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const selfie = selfieInput.value.trim();
@@ -253,16 +263,19 @@ function mountEventListeners() {
     }, 1200);
   });
 
+  // Handover video simulation
   handoverBtn.addEventListener("click", () => {
     appState.user.handoverVideo = "simulated-handover.mp4";
     handoverStatus.textContent = "Handover video saved. Condition accepted.";
   });
 
+  // Terms acceptance handling
   termsCheckbox.addEventListener("change", (event) => {
     appState.user.termsAccepted = event.target.checked;
     checkoutBtn.disabled = !event.target.checked;
   });
 
+  // Checkout simulation
   checkoutBtn.addEventListener("click", () => {
     if (!appState.user.termsAccepted) return;
     if (!appState.user.handoverVideo) {
@@ -278,6 +291,7 @@ function mountEventListeners() {
     setTimeout(() => checkoutMessage.classList.add("hidden"), 4000);
   });
 
+  // Item modal interactions
   document.body.addEventListener("click", (event) => {
     if (event.target.matches("[data-item-id]")) {
       openItemModal(event.target.dataset.itemId);
@@ -300,12 +314,14 @@ function mountEventListeners() {
     }
   });
 
+  // Modal close button
   closeModal.addEventListener("click", () => itemModal.classList.add("hidden"));
   itemModal.addEventListener("click", (event) => {
     if (event.target === itemModal) itemModal.classList.add("hidden");
   });
 }
 
+// Application initialization
 function init() {
   renderItems();
   updateProfile();

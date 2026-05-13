@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Page metadata and external resources -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RentIt — Hyper-local rental marketplace</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Main page container -->
   <div class="page-shell">
+    <!-- Site header with branding and navigation -->
     <header class="topbar">
       <div class="brand">
         <span class="mark">RentIt</span>
@@ -25,7 +28,9 @@
       </nav>
     </header>
 
+    <!-- Main content area -->
     <main>
+      <!-- Hero section with main value proposition -->
       <section class="hero" id="hero">
         <div class="hero-copy">
           <p class="eyebrow">Peer-to-peer rental marketplace</p>
@@ -34,21 +39,6 @@
           <div class="hero-actions">
             <button id="exploreBtn" class="btn btn-primary">Explore marketplace</button>
             <button id="profileBtn" class="btn btn-secondary">View trust profile</button>
-          </div>
-        </div>
-        <div class="hero-visual">
-          <div class="hero-card">
-            <div class="hero-card-header">
-              <span>Featured listing</span>
-              <strong>Power Washer</strong>
-            </div>
-            <div class="hero-card-body">
-              <p>₦3,000/day · 1 street away · verified owner</p>
-              <div class="hero-meta">
-                <span>Handover checklist</span>
-                <span>Identity required</span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -170,11 +160,13 @@
       </section>
     </main>
 
+    <!-- Site footer -->
     <footer class="footer">
       <p>RentIt demo — frontend-only prototype. Built with HTML, CSS, and JavaScript.</p>
     </footer>
   </div>
 
+  <!-- Item detail modal for viewing rental items -->
   <div id="itemModal" class="modal hidden">
     <div class="modal-panel">
       <button id="closeModal" class="modal-close">×</button>
@@ -182,6 +174,7 @@
     </div>
   </div>
 
+  <!-- Main JavaScript file for interactivity -->
   <script src="script.js"></script>
 </body>
 </html>

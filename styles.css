@@ -1,3 +1,4 @@
+/* CSS Variables and Global Styles */
 :root {
   color-scheme: dark;
   --bg: #0f141c;
@@ -37,12 +38,14 @@ button, input {
   font: inherit;
 }
 
+/* Layout Containers */
 .page-shell {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px 20px 40px;
 }
 
+/* Header and Navigation Styles */
 .topbar {
   display: flex;
   align-items: center;
@@ -79,6 +82,7 @@ nav a:hover {
   color: var(--text);
 }
 
+/* Mobile Menu Toggle Button */
 .menu-toggle {
   display: none;
   background: none;
@@ -135,6 +139,7 @@ nav a:hover {
   top: 0;
 }
 
+/* Blur Effect for Background Content */
 .blur-background main {
   filter: blur(3px);
   pointer-events: none;
@@ -145,6 +150,7 @@ nav a:hover {
   pointer-events: none;
 }
 
+/* Hero Section Styles */
 .hero {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -183,6 +189,7 @@ nav a:hover {
   gap: 14px;
 }
 
+/* Button Styles */
 .btn {
   border: none;
   border-radius: 999px;
@@ -254,6 +261,7 @@ nav a:hover {
   margin-top: 18px;
 }
 
+/* Section Layouts */
 .section {
   margin-bottom: 40px;
 }
@@ -302,6 +310,7 @@ nav a:hover {
   color: rgba(255, 255, 255, 0.4);
 }
 
+/* Items Grid and Cards */
 .items-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -343,6 +352,7 @@ nav a:hover {
   font-size: 0.86rem;
 }
 
+/* Profile and Trust Styles */
 .profile-panel {
   padding: 28px;
   border-radius: 32px;
@@ -460,6 +470,7 @@ input {
   font-size: 0.96rem;
 }
 
+/* Checklist Section */
 .checklist-section {
   margin-top: 20px;
 }
@@ -491,12 +502,14 @@ input {
   accent-color: var(--accent);
 }
 
+/* Footer */
 .footer {
   margin-top: 44px;
   text-align: center;
   color: var(--muted);
 }
 
+/* Modal Styles */
 .modal {
   position: fixed;
   inset: 0;
@@ -527,6 +540,7 @@ input {
   cursor: pointer;
 }
 
+/* Mobile Responsive Styles */
 @media (max-width: 960px) {
   .hero, .intro-grid, .profile-grid, .checklist-grid {
     grid-template-columns: 1fr;
