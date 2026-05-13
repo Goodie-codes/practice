@@ -90,6 +90,8 @@ const profileBtn = document.getElementById("profileBtn");
 const itemModal = document.getElementById("itemModal");
 const modalContent = document.getElementById("modalContent");
 const closeModal = document.getElementById("closeModal");
+const menuToggle = document.getElementById("menuToggle");
+const navMenu = document.getElementById("navMenu");
 
 function getTrustLevel(completedRentals = 0) {
   if (completedRentals >= 6) return 4;
@@ -199,6 +201,33 @@ function mountEventListeners() {
   profileBtn.addEventListener("click", () => document.getElementById("trust").scrollIntoView({ behavior: "smooth" }));
   verifyStartBtn.addEventListener("click", () => document.getElementById("verification").scrollIntoView({ behavior: "smooth" }));
   guarantorBtn.addEventListener("click", showGuarantorLink);
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navMenu.classList.contains("open");
+    if (isOpen) {
+      navMenu.classList.remove("open");
+      menuToggle.classList.remove("active");
+    } else {
+      navMenu.classList.add("open");
+      menuToggle.classList.add("active");
+    }
+  });
+
+  // Close menu when clicking on nav links
+  navMenu.addEventListener("click", (event) => {
+    if (event.target.tagName === "A") {
+      navMenu.classList.remove("open");
+      menuToggle.classList.remove("active");
+    }
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (event) => {
+    if (!menuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+      navMenu.classList.remove("open");
+      menuToggle.classList.remove("active");
+    }
+  });
 
   verificationForm.addEventListener("submit", (event) => {
     event.preventDefault();
