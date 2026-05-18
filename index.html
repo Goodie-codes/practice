@@ -157,10 +157,28 @@
             <p class="eyebrow">Estate marketplace</p>
             <h2>Browse nearby items</h2>
           </div>
-          <div class="search-block">
-            <input id="searchInput" type="search" placeholder="Search tools, cameras, ladders..." />
+          <div class="marketplace-tools">
+            <div class="search-block">
+              <input id="searchInput" type="search" placeholder="Search tools, cameras, ladders..." />
+            </div>
+            <label class="control-label">
+              Category
+              <select id="categoryFilter">
+                <option value="all">All categories</option>
+              </select>
+            </label>
+            <label class="control-label">
+              Sort
+              <select id="sortSelect">
+                <option value="recommended">Recommended</option>
+                <option value="price-low">Price: low to high</option>
+                <option value="price-high">Price: high to low</option>
+                <option value="title">Name</option>
+              </select>
+            </label>
           </div>
         </div>
+        <p id="resultCount" class="marketplace-count"></p>
         <div id="itemsGrid" class="items-grid"></div>
       </section>
 
@@ -265,9 +283,14 @@
             <button id="handoverBtn" class="btn btn-secondary">Upload handover video</button>
             <p id="handoverStatus" class="muted">No video uploaded yet.</p>
           </div>
+          <div class="checklist-card booking-card">
+            <h3>Selected booking</h3>
+            <p id="bookingSummary" class="muted">Choose an item from the marketplace to create a rental quote.</p>
+            <div id="bookingBreakdown" class="booking-breakdown hidden"></div>
+          </div>
           <div class="checklist-card">
             <h3>Agree to the terms</h3>
-            <p>You cannot pay until you accept the rental agreement.</p>
+            <p>You cannot pay until you select an item and accept the rental agreement.</p>
             <label class="checkbox-label">
               <input id="termsCheckbox" type="checkbox" />
               I accept RentIt’s rental terms.
@@ -296,7 +319,7 @@
     ==================
     Overlay modal that appears when users click "View details" on rental items.
     Shows expanded information about the selected item including pricing, description,
-    rental requirements, and booking actions. Uses a dark overlay background with
+    rental requirements, and booking actions. Uses a soft overlay background with
     blur effects on mobile. Contains close button and handles click-outside-to-close.
     This provides detailed item information without leaving the marketplace page.
   -->

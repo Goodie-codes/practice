@@ -1,16 +1,20 @@
 /* CSS Variables and Global Styles */
 :root {
-  color-scheme: dark;
-  --bg: #0f141c;
-  --surface: #161f2d;
-  --surface-soft: #1f2a3d;
-  --text: #f5f7fb;
-  --muted: #9bb0d5;
-  --accent: #56c3ff;
-  --accent-soft: #1e5f94;
-  --success: #4ade80;
-  --warning: #fbbf24;
-  --shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-soft: #f8f3ed;
+  --text: #1e2a36;
+  --muted: #735f50;
+  --accent: #2563eb;
+  --accent-strong: #174ea6;
+  --accent-soft: #dbeafe;
+  --brown: #8a5a2b;
+  --brown-soft: #f1e3d3;
+  --border: #e6d8ca;
+  --success: #167a45;
+  --warning: #9a6700;
+  --shadow: 0 20px 60px rgba(101, 70, 38, 0.14);
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -21,8 +25,7 @@
 html, body {
   margin: 0;
   min-height: 100%;
-  background: radial-gradient(circle at top, rgba(86, 195, 255, 0.14), transparent 35%),
-    linear-gradient(180deg, #0b1120 0%, #0f141c 100%);
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -64,7 +67,8 @@ button, input {
 .mark {
   font-size: 1.6rem;
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
+  color: var(--accent-strong);
 }
 
 .tag {
@@ -79,7 +83,7 @@ nav a {
 }
 
 nav a:hover {
-  color: var(--text);
+  color: var(--accent-strong);
 }
 
 /* Mobile Menu Toggle Button */
@@ -94,7 +98,7 @@ nav a:hover {
 }
 
 .menu-toggle:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--accent-soft);
 }
 
 .hamburger {
@@ -202,20 +206,31 @@ nav a:hover {
   transform: translateY(-1px);
 }
 
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.btn:disabled:hover {
+  transform: none;
+}
+
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent), #4dc2ff);
-  color: #061824;
-  box-shadow: 0 18px 30px rgba(86, 195, 255, 0.28);
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 18px 30px rgba(37, 99, 235, 0.22);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.07);
-  color: var(--text);
+  background: var(--brown-soft);
+  color: #5c3717;
+  border: 1px solid rgba(138, 90, 43, 0.18);
 }
 
 .btn-outline {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: #ffffff;
+  border: 1px solid var(--border);
   color: var(--text);
 }
 
@@ -228,8 +243,8 @@ nav a:hover {
   max-width: 360px;
   padding: 28px;
   border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, #ffffff, var(--surface-soft));
+  border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
 
@@ -281,7 +296,8 @@ nav a:hover {
   border-radius: 24px;
   background: var(--surface);
   padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 32px rgba(101, 70, 38, 0.08);
 }
 
 .feature-card h3 {
@@ -296,18 +312,48 @@ nav a:hover {
   margin-bottom: 24px;
 }
 
+.marketplace-tools {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.4fr) minmax(150px, 0.7fr) minmax(170px, 0.8fr);
+  gap: 12px;
+  align-items: end;
+  width: min(680px, 100%);
+}
+
 .search-block input {
   width: 100%;
-  max-width: 420px;
   padding: 16px 18px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  background: #ffffff;
   color: var(--text);
 }
 
 .search-block input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: #a38b75;
+}
+
+.control-label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+select {
+  width: 100%;
+  padding: 15px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+}
+
+.marketplace-count {
+  margin: -10px 0 18px;
+  color: var(--muted);
+  font-weight: 700;
 }
 
 /* Items Grid and Cards */
@@ -323,7 +369,8 @@ nav a:hover {
   padding: 22px;
   border-radius: 24px;
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 34px rgba(101, 70, 38, 0.09);
 }
 
 .item-card h3 {
@@ -341,14 +388,47 @@ nav a:hover {
   margin: 0;
 }
 
+.item-image {
+  min-height: 128px;
+  border-radius: 18px;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent-soft), var(--brown-soft));
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.item-category,
+.item-price {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--accent-strong);
+  font-weight: 800;
+  box-shadow: 0 8px 18px rgba(101, 70, 38, 0.12);
+}
+
+.item-price {
+  color: #5c3717;
+}
+
+.item-details {
+  display: grid;
+  gap: 12px;
+}
+
 .label-pill {
   display: inline-flex;
   gap: 8px;
   align-items: center;
   padding: 8px 12px;
   border-radius: 999px;
-  background: rgba(86, 195, 255, 0.12);
-  color: #ccecff;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   font-size: 0.86rem;
 }
 
@@ -356,8 +436,9 @@ nav a:hover {
 .profile-panel {
   padding: 28px;
   border-radius: 32px;
-  background: linear-gradient(180deg, rgba(19, 29, 44, 0.95), rgba(16, 22, 33, 0.95));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, var(--surface-soft), #ffffff);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
 }
 
 .profile-grid {
@@ -368,9 +449,9 @@ nav a:hover {
 
 .profile-card {
   border-radius: 24px;
-  background: var(--surface-soft);
+  background: var(--surface);
   padding: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
 }
 
 .profile-row {
@@ -381,8 +462,8 @@ nav a:hover {
 }
 
 .badge {
-  background: rgba(86, 195, 255, 0.12);
-  color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   padding: 10px 16px;
   border-radius: 999px;
   font-weight: 700;
@@ -404,7 +485,7 @@ nav a:hover {
   width: 100%;
   height: 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--brown-soft);
   overflow: hidden;
 }
 
@@ -412,7 +493,7 @@ nav a:hover {
   width: 0;
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(135deg, #56c3ff, #37b0ff);
+  background: linear-gradient(135deg, var(--accent), var(--brown));
   transition: width 0.4s ease;
 }
 
@@ -427,8 +508,9 @@ nav a:hover {
   margin-top: 18px;
   padding: 16px;
   border-radius: 18px;
-  background: rgba(86, 195, 255, 0.1);
-  color: #d8efff;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border: 1px solid rgba(37, 99, 235, 0.14);
 }
 
 .hidden {
@@ -452,15 +534,15 @@ label {
   color: var(--muted);
 }
 
-input[type="text"], input[type="search"] {
+input[type="text"], input[type="search"], input[type="number"] {
   width: 100%;
 }
 
 input {
   padding: 14px 16px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  background: #ffffff;
   color: var(--text);
 }
 
@@ -474,14 +556,14 @@ input {
    ===========================
    Critical pre-rental verification system for RentIt marketplace.
    Ensures items are properly inspected and documented before rental begins.
-   Two-column grid layout showing verification steps and terms acceptance. */
+   Three-column grid layout showing condition capture, quote review, and terms acceptance. */
 .checklist-section {
   margin-top: 20px;
 }
 
 .checklist-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Two equal columns */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* Three equal columns */
   gap: 20px;
 }
 
@@ -489,7 +571,37 @@ input {
   padding: 24px;
   border-radius: 24px;
   background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 34px rgba(101, 70, 38, 0.08);
+}
+
+.booking-breakdown,
+.quote-summary {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.booking-breakdown div,
+.quote-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+}
+
+.booking-breakdown strong,
+.quote-summary strong {
+  color: var(--text);
+}
+
+.quote-total {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.quote-total strong {
+  color: var(--accent-strong);
 }
 
 /* TERMS ACCEPTANCE CHECKBOX
@@ -530,7 +642,7 @@ input {
   inset: 0; /* Cover entire viewport */
   display: grid;
   place-items: center; /* Center modal content */
-  background: rgba(6, 22, 38, 0.72); /* Semi-transparent dark overlay */
+  background: rgba(30, 42, 54, 0.34); /* Semi-transparent overlay */
   z-index: 20;
   padding: 20px; /* Prevent content from touching screen edges */
 }
@@ -540,10 +652,11 @@ input {
    Styled as a card with rounded corners and subtle shadow for depth. */
 .modal-panel {
   width: min(700px, 100%); /* Responsive width, max 700px */
+  position: relative;
   padding: 28px;
   border-radius: 28px;
-  background: #0f1725; /* Dark modal background */
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
 
@@ -559,6 +672,25 @@ input {
   color: var(--text);
   font-size: 1.8rem; /* Large close icon */
   cursor: pointer;
+}
+
+.modal-feature-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.duration-control {
+  margin-top: 18px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 24px;
 }
 
 /* MOBILE RESPONSIVE STYLES - TABLET BREAKPOINT (960px and below)
@@ -591,7 +723,7 @@ input {
     top: 0;
     right: 0;
     background: var(--surface);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
     border-radius: 0 0 12px 12px; /* Rounded bottom corners only */
     padding: 20px;
     box-shadow: var(--shadow);
@@ -625,13 +757,13 @@ input {
     transition: all 0.2s ease;
     width: 100%;
     text-align: left;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--surface-soft);
   }
 
   /* Hover effects for mobile menu links */
   #navMenu a:hover {
     color: var(--accent);
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--accent-soft);
     padding-left: 20px; /* Slide text right on hover */
   }
 
@@ -680,8 +812,9 @@ input {
     width: 100%;
   }
 
-  .search-block input {
-    max-width: 100%;
+  .marketplace-tools {
+    grid-template-columns: 1fr;
+    width: 100%;
   }
 
   /* Single column item grid on mobile */

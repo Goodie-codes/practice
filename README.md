@@ -5,12 +5,14 @@ A frontend-only prototype of the RentIt pitch, built with HTML, CSS, and JavaScr
 ## Structure
 
 - `index.html` — main landing page and marketplace UI
-- `styles.css` — responsive dark-themed design
-- `script.js` — simulated item browsing, identity verification, handover checklist, and checkout flow
+- `styles.css` — responsive white, blue, and brown themed design
+- `script.js` — simulated item browsing, filters, rental quotes, identity verification, handover checklist, and checkout flow
 
 ## What it demonstrates
 
 - Marketplace browsing for local items
+- Category filtering, sorting, and visible result counts
+- Rental quote generation with duration, RentIt fee, deposit, and total due
 - Simulated identity verification UI (selfie + NIN/BVN)
 - Community trust score and level progress
 - Handover checklist before checkout

@@ -28,6 +28,12 @@ const appState = {
     handoverVideo: null,           // URL to handover condition video
     termsAccepted: false           // Whether user has accepted rental terms
   },
+  filters: {
+    query: "",
+    category: "all",
+    sort: "recommended"
+  },
+  selectedBooking: null,
 
   // RENTAL ITEMS INVENTORY
   // Array of available rental items in the marketplace. Each item represents
@@ -127,7 +133,15 @@ const checkoutMessage = document.getElementById("checkoutMessage");  // Success 
 // MARKETPLACE ELEMENTS
 // Elements for browsing and searching rental items
 const searchInput = document.getElementById("searchInput");          // Search input for filtering items
+const categoryFilter = document.getElementById("categoryFilter");    // Category dropdown for narrowing the marketplace
+const sortSelect = document.getElementById("sortSelect");            // Sort dropdown for changing item order
+const resultCount = document.getElementById("resultCount");          // Count of currently visible marketplace items
 const itemsGrid = document.getElementById("itemsGrid");              // Container for displaying item cards
+
+// BOOKING ELEMENTS
+// Elements for displaying the quote generated from a selected marketplace item
+const bookingSummary = document.getElementById("bookingSummary");
+const bookingBreakdown = document.getElementById("bookingBreakdown");
 
 // NAVIGATION ELEMENTS
 // Elements for site navigation and user flow
@@ -184,6 +198,62 @@ function formatNaira(value) {
   return `₦${value.toLocaleString("en-NG")}`;
 }
 
+function clampRentalDays(value) {
+  const days = Number.parseInt(value, 10);
+  if (Number.isNaN(days)) return 1;
+  return Math.min(14, Math.max(1, days));
+}
+
+function getRentalQuote(item, days = 1) {
+  const safeDays = clampRentalDays(days);
+  const subtotal = item.price * safeDays;
+  const commission = Math.round(subtotal * 0.1);
+  const deposit = Math.round(item.price * 0.4);
+
+  return {
+    days: safeDays,
+    subtotal,
+    commission,
+    deposit,
+    total: subtotal + commission + deposit
+  };
+}
+
+function renderQuoteBreakdown(quote) {
+  return `
+    <div><span>Rental subtotal</span><strong>${formatNaira(quote.subtotal)}</strong></div>
+    <div><span>RentIt 10% fee</span><strong>${formatNaira(quote.commission)}</strong></div>
+    <div><span>Refundable deposit</span><strong>${formatNaira(quote.deposit)}</strong></div>
+    <div class="quote-total"><span>Total due today</span><strong>${formatNaira(quote.total)}</strong></div>
+  `;
+}
+
+function updateBookingSummary() {
+  const booking = appState.selectedBooking;
+
+  if (!booking) {
+    bookingSummary.textContent = "Choose an item from the marketplace to create a rental quote.";
+    bookingBreakdown.classList.add("hidden");
+    bookingBreakdown.innerHTML = "";
+    checkoutBtn.disabled = true;
+    return;
+  }
+
+  const item = appState.items.find(rentalItem => rentalItem.id === booking.itemId);
+  if (!item) {
+    appState.selectedBooking = null;
+    updateBookingSummary();
+    return;
+  }
+
+  const quote = getRentalQuote(item, booking.days);
+  appState.selectedBooking.quote = quote;
+  bookingSummary.textContent = `${item.title} reserved for ${quote.days} day${quote.days === 1 ? "" : "s"}. Complete the handover checklist to continue.`;
+  bookingBreakdown.innerHTML = renderQuoteBreakdown(quote);
+  bookingBreakdown.classList.remove("hidden");
+  checkoutBtn.disabled = !appState.user.termsAccepted;
+}
+
 // Profile update function
 // PROFILE MANAGEMENT FUNCTIONS
 // ============================
@@ -225,31 +295,57 @@ function updateProfile() {
     ? "Handover video saved. Condition accepted."   // Video uploaded
     : "No video uploaded yet.";                     // No video yet
 
-  // Enable/disable checkout button based on terms acceptance
-  checkoutBtn.disabled = !appState.user.termsAccepted;
+  // Enable/disable checkout button based on booking selection and terms acceptance
+  checkoutBtn.disabled = !appState.selectedBooking || !appState.user.termsAccepted;
 }
 
 // MARKETPLACE RENDERING FUNCTIONS
 // ================================
 // Functions that handle displaying and filtering rental items in the marketplace
 
-function renderItems(query = "") {
+function getFilteredItems() {
+  const { query, category, sort } = appState.filters;
+  const normalized = query.trim().toLowerCase();
+
+  const filtered = appState.items.filter(item => {
+    const matchesQuery = item.title.toLowerCase().includes(normalized)
+      || item.category.toLowerCase().includes(normalized)
+      || item.description.toLowerCase().includes(normalized);
+    const matchesCategory = category === "all" || item.category === category;
+
+    return matchesQuery && matchesCategory;
+  });
+
+  return filtered.sort((first, second) => {
+    if (sort === "price-low") return first.price - second.price;
+    if (sort === "price-high") return second.price - first.price;
+    if (sort === "title") return first.title.localeCompare(second.title);
+    return appState.items.indexOf(first) - appState.items.indexOf(second);
+  });
+}
+
+function populateCategoryFilter() {
+  const categories = [...new Set(appState.items.map(item => item.category))].sort();
+
+  categories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    categoryFilter.appendChild(option);
+  });
+}
+
+function renderItems() {
   // Renders the marketplace grid with rental items, optionally filtered by search query
   // Takes a search string and filters items by title, category, or description
   // Displays "no results" message if no items match the search criteria
 
-  // Normalize search query for case-insensitive matching
-  const normalized = query.trim().toLowerCase();
-
   // Clear existing items from the grid
   itemsGrid.innerHTML = "";
 
-  // Filter items based on search query across multiple fields
-  const filtered = appState.items.filter(item => {
-    return item.title.toLowerCase().includes(normalized)        // Search in item title
-      || item.category.toLowerCase().includes(normalized)       // Search in category
-      || item.description.toLowerCase().includes(normalized);   // Search in description
-  });
+  // Filter items based on search query, category, and sort controls
+  const filtered = getFilteredItems();
+  resultCount.textContent = `${filtered.length} item${filtered.length === 1 ? "" : "s"} available`;
 
   // Handle empty search results with helpful message
   if (filtered.length === 0) {
@@ -298,6 +394,11 @@ function openItemModal(itemId) {
   const item = appState.items.find(i => i.id === itemId);
   if (!item) return; // Exit if item not found (defensive programming)
 
+  const startingDays = appState.selectedBooking?.itemId === item.id
+    ? appState.selectedBooking.days
+    : 2;
+  const quote = getRentalQuote(item, startingDays);
+
   // Build detailed modal content with item information and rental terms
   modalContent.innerHTML = `
     <h2>${item.title}</h2>  <!-- Item title as main heading -->
@@ -305,15 +406,23 @@ function openItemModal(itemId) {
     <p>${item.description}</p>  <!-- Full item description -->
 
     <!-- Feature list explaining rental benefits and requirements -->
-    <ul class="feature-list" style="margin-top: 18px;">
+    <ul class="modal-feature-list">
       <li><strong>Why this works:</strong> Hyper-local pickup keeps trust higher and delivery easy.</li>
       <li><strong>Owner fee:</strong> You pay 10% RentIt commission on every booking.</li>
       <li><strong>Checklist:</strong> Condition acceptance is mandatory before rental starts.</li>
     </ul>
 
+    <label class="duration-control">
+      Rental duration
+      <input id="rentalDaysInput" type="number" min="1" max="14" value="${quote.days}" />
+    </label>
+    <div id="quoteSummary" class="quote-summary">
+      ${renderQuoteBreakdown(quote)}
+    </div>
+
     <!-- Action buttons for rental workflow -->
-    <div class="modal-actions" style="margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap;">
-      <button id="rentNowBtn" class="btn btn-primary">Rent for 2 days</button>  <!-- Primary rental action -->
+    <div class="modal-actions">
+      <button id="rentNowBtn" class="btn btn-primary" data-rent-id="${item.id}">Reserve rental</button>  <!-- Primary rental action -->
       <button id="closeModalBtn" class="btn btn-secondary">Back to marketplace</button>  <!-- Return to grid view -->
     </div>
   `;
@@ -355,7 +464,20 @@ function mountEventListeners() {
 
   // SEARCH FUNCTIONALITY
   // Real-time search filtering as user types in the search input
-  searchInput.addEventListener("input", (event) => renderItems(event.target.value));
+  searchInput.addEventListener("input", (event) => {
+    appState.filters.query = event.target.value;
+    renderItems();
+  });
+
+  categoryFilter.addEventListener("change", (event) => {
+    appState.filters.category = event.target.value;
+    renderItems();
+  });
+
+  sortSelect.addEventListener("change", (event) => {
+    appState.filters.sort = event.target.value;
+    renderItems();
+  });
 
   // NAVIGATION HANDLERS
   // Smooth scrolling navigation to different sections of the page
@@ -444,7 +566,7 @@ function mountEventListeners() {
   // Enable/disable checkout button based on terms agreement
   termsCheckbox.addEventListener("change", (event) => {
     appState.user.termsAccepted = event.target.checked;
-    checkoutBtn.disabled = !event.target.checked;
+    checkoutBtn.disabled = !appState.selectedBooking || !event.target.checked;
   });
 
   // CHECKOUT SIMULATION
@@ -452,22 +574,33 @@ function mountEventListeners() {
   checkoutBtn.addEventListener("click", () => {
     if (!appState.user.termsAccepted) return; // Prevent checkout without terms acceptance
 
+    if (!appState.selectedBooking) {
+      alert("Please reserve an item from the marketplace before checkout.");
+      return;
+    }
+
     if (!appState.user.handoverVideo) {
       alert("Please complete the handover checklist before checkout.");
       return;
     }
 
+    const rentedItem = appState.items.find(item => item.id === appState.selectedBooking.itemId);
+    const rentedTitle = rentedItem ? rentedItem.title : "your rental";
+
     // Simulate successful rental completion - increase trust score
     appState.user.trust.completedRentals += 1;
 
-    // Reset terms acceptance for next rental
+    // Reset booking state for next rental
     appState.user.termsAccepted = false;
+    appState.user.handoverVideo = null;
+    appState.selectedBooking = null;
     termsCheckbox.checked = false;
 
     // Show success message and update UI
-    checkoutMessage.textContent = "Payment simulated — rental started. Your trust score has increased.";
+    checkoutMessage.textContent = `Payment simulated for ${rentedTitle}. Your trust score has increased.`;
     checkoutMessage.classList.remove("hidden");
     updateProfile();
+    updateBookingSummary();
 
     // Auto-hide success message after 4 seconds
     setTimeout(() => checkoutMessage.classList.add("hidden"), 4000);
@@ -483,9 +616,7 @@ function mountEventListeners() {
 
     // Handle "Rent Now" button in modal
     if (event.target.id === "rentNowBtn") {
-      // Find item by title (would use ID in production)
-      const itemId = event.target.closest(".modal-panel").querySelector("h2").textContent;
-      const item = appState.items.find(i => i.title === itemId);
+      const item = appState.items.find(i => i.id === event.target.dataset.rentId);
 
       if (item) {
         // Check if item requires verification and user is verified
@@ -496,6 +627,15 @@ function mountEventListeners() {
           alert("This item requires identity verification before renting. Please verify first.");
           return;
         }
+
+        const rentalDaysInput = document.getElementById("rentalDaysInput");
+        const days = clampRentalDays(rentalDaysInput?.value || 1);
+        appState.selectedBooking = {
+          itemId: item.id,
+          days,
+          quote: getRentalQuote(item, days)
+        };
+        updateBookingSummary();
 
         // Close modal and scroll to verification section for checkout
         itemModal.classList.add("hidden");
@@ -515,6 +655,20 @@ function mountEventListeners() {
   itemModal.addEventListener("click", (event) => {
     if (event.target === itemModal) itemModal.classList.add("hidden");
   });
+
+  document.body.addEventListener("input", (event) => {
+    if (event.target.id !== "rentalDaysInput") return;
+
+    const itemId = document.getElementById("rentNowBtn")?.dataset.rentId;
+    const item = appState.items.find(rentalItem => rentalItem.id === itemId);
+    const quoteSummary = document.getElementById("quoteSummary");
+
+    if (item && quoteSummary) {
+      const quote = getRentalQuote(item, event.target.value);
+      event.target.value = quote.days;
+      quoteSummary.innerHTML = renderQuoteBreakdown(quote);
+    }
+  });
 }
 
 // APPLICATION INITIALIZATION
@@ -527,10 +681,12 @@ function init() {
   // Called automatically when the script loads at the bottom of the HTML
 
   // Render the initial marketplace with all available items
+  populateCategoryFilter();
   renderItems();
 
   // Update all profile-related UI elements with current user state
   updateProfile();
+  updateBookingSummary();
 
   // Attach all event listeners for user interactions
   mountEventListeners();
